@@ -15,11 +15,33 @@ it('renders correct name', () => {
   expect(playerNameRendered).toEqual(playerNamePassed);
 });
 
-it('renders correct name', () => {
+it('renders correct number', () => {
   const playerScorePassed = 1;
   const playerComponent = shallow(<Player score={playerScorePassed} />);
 
   const playerScoreRendered = Number(playerComponent.find('.Player__score').text());
 
   expect(playerScoreRendered).toEqual(playerScorePassed);
+});
+
+it('should call onPlayerScoreChange with 1 when plus button is clicked', () => {
+  const mockedOnPlayerScoreChange = jest.fn();
+  const playerComponent = shallow(<Player onPlayerScoreChange={mockedOnPlayerScoreChange} />);
+
+  const plusButton = playerComponent.find('.Player__button').at(0);
+
+  plusButton.simulate('click');
+
+  expect(mockedOnPlayerScoreChange).toBeCalledWith(1);
+});
+
+it('should call onPlayerScoreChange with -1 when plus button is clicked', () => {
+  const mockedOnPlayerScoreChange = jest.fn();
+  const playerComponent = shallow(<Player onPlayerScoreChange={mockedOnPlayerScoreChange} />);
+
+  const plusButton = playerComponent.find('.Player__button').at(1);
+
+  plusButton.simulate('click');
+
+  expect(mockedOnPlayerScoreChange).toBeCalledWith(-1);
 });

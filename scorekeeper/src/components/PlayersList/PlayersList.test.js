@@ -1,0 +1,42 @@
+import PlayersList from './PlayersList';
+import Player from '../Player/Player';
+import React from 'react';
+import { shallow } from 'enzyme';
+
+it('renders without crashing', () => {
+ 	shallow(<PlayersList players={[]} />);
+});
+
+it('renders correct number of players', () => {
+	const players = [
+	    {
+	        name: 'Kunegunda',
+	        score: 5
+	    },
+	    {
+	        name: 'Antoś',
+	        score: 0
+	    }
+	]
+	const playerComponent = shallow(<PlayersList players={players} />);
+	const expectedPlayersNumber = playerComponent.find(Player).length;
+	expect(expectedPlayersNumber).toEqual(2);
+});
+
+it('renders correct Player callback', () => {
+ 	const players = [
+	    {
+	        name: 'Kunegunda',
+	        score: 5
+	    },
+	    {
+	        name: 'Antoś',
+	        score: 0
+	    }
+	]
+	const mockedOnScoreUpdate = jest.fn();
+	const playerComponent = shallow(<PlayersList players={players} onScoreUpdate={mockedOnScoreUpdate} />);
+	const firstPlayer = playerComponent.find(Player).first();
+	const onPlayerScoreChange = firstPlayer.prop('onPlayerScoreChange');
+	
+});

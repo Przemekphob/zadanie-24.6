@@ -14,12 +14,28 @@ class App extends Component {
 
   	onScoreUpdate = (playerIndex, scoreChange) => {
     	let  newPlayers= this.state.players.map((player, index) => {
-	      	if (index === playerIndex) {
-	        	return { ...player, score: player.score + scoreChange };
-	      	}
-	      	return player;
-    	})	
-    }
+      		if (index === playerIndex) {
+        		return { ...player, score: player.score + scoreChange };
+      		}
+      	return player;
+    	})
+    	let sort = newPlayers.sort(this.compare);
+    	this.setState({
+      		players: sort
+    	})
+  	}
+
+  	compare = (a, b) => {
+	    const scoreA = a.score;
+	    const scoreB = b.score;
+	    let comparison = 0;
+	    if (scoreA > scoreB) {
+	      	comparison = -1;
+	    } else if (scoreA < scoreB) {
+	      	comparison = 1;
+	    }
+	    return comparison;
+  	}
 
 	onPlayerAdd = (playerName) => {
 	  	const newPlayer = {
@@ -33,6 +49,10 @@ class App extends Component {
 
   	onPlayerRemove = (i) => {
 	    const newPlayers = this.state.players.filter(player => player.name !== this.state.players[i].name);
+	    let sort = newPlayers.sort(this.compare);
+    	this.setState({
+      		players: sort
+    	})
   	}
   
   	render() {
